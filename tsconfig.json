@@ -7,6 +7,9 @@
       "esnext"
     ],
     "allowJs": true,
+    "removeComments": true,
+    "newLine": "crlf",
+    "noImplicitReturns": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
