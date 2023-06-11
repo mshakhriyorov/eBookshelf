@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import type { RootState } from "../../app/store";
 
@@ -136,6 +138,12 @@ export const UserSlice = createSlice({
         state.loading === "pending" &&
         state.currentRequestId === meta.requestId
       ) {
+        if (payload === 500) {
+          toast("This user ID is already taken!");
+        }
+        if (payload === 401) {
+          toast("You are not registered yet!");
+        }
         state.loading = "idle";
         state.error = payload;
         state.currentRequestId = undefined;

@@ -25,13 +25,6 @@ const authorStyle = {
   color: "#fff",
 };
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  color: theme.palette.text.secondary,
-}));
-
 export const BooksItem: React.FC = (props: Props) => {
   const author = "Konan Doyle";
   const title = "Raspberry Pi User Guide";
@@ -41,8 +34,8 @@ export const BooksItem: React.FC = (props: Props) => {
   const pages = 300;
 
   return (
-    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <span className="books-item__card-media" style={{ position: "relative" }}>
+    <StyledCard>
+      <span style={{ position: "relative" }}>
         <CardMedia
           component="div"
           sx={{
@@ -78,6 +71,24 @@ export const BooksItem: React.FC = (props: Props) => {
         <Button size="small">Delete</Button>
         <Button size="small">Edit</Button>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 };
+
+const StyledCard = styled(Card)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s all;
+
+  &:hover {
+    transform: scale(1.005);
+  }
+`;
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  color: theme.palette.text.secondary,
+}));

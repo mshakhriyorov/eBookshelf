@@ -26,7 +26,7 @@ export const Register: React.FC = () => {
   const localStorageState =
     JSON.parse(localStorage.getItem("register") as any) || null;
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email") as string | null;
@@ -37,9 +37,12 @@ export const Register: React.FC = () => {
       secret: "",
     };
 
-    navigate(routePaths.home());
-
-    dispatch(registerUser(registrationData) as any);
+    if (email && name) {
+      const response = await dispatch(registerUser(registrationData) as any);
+      if (registerUser.fulfilled.match(response)) {
+        navigate(routePaths.home());
+      }
+    }
   };
 
   // redirect in case already registered
@@ -81,7 +84,7 @@ export const Register: React.FC = () => {
                   required
                   fullWidth
                   id="name"
-                  label="Name"
+                  label="User ID"
                   autoFocus
                 />
               </Grid>

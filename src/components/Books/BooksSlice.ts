@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 import { BooksState } from "./constants/booksInterfaces";
 import { Meta } from "../Register/constants/registerInterfaces";
@@ -143,6 +144,10 @@ export const BooksSlice = createSlice({
         state.loading === "pending" &&
         state.currentRequestId === meta.requestId
       ) {
+        if (payload === 500) {
+          toast("This book is already in your shelf!");
+        }
+
         state.loading = "idle";
         state.error = payload;
         state.currentRequestId = undefined;

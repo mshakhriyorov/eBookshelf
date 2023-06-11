@@ -37,9 +37,11 @@ export const ActionsAdd = ({
   };
 
   const handleSubmit = () => {
-    dispatch(addBook({ isbn: value }));
-    setIsVisibleModal(false);
-    setValue("");
+    if (value) {
+      dispatch(addBook({ isbn: value }));
+      setIsVisibleModal(false);
+      setValue("");
+    }
   };
 
   const handleCancel = () => {

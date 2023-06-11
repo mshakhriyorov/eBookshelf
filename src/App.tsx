@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { Books } from "./components/Books";
 import { Register } from "./components/Register";
@@ -13,6 +14,7 @@ function App() {
         <Route path={routePaths.home()} element={<Books />} />
         <Route path={routePaths.register()} element={<Register />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }
