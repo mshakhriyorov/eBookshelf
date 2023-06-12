@@ -155,7 +155,7 @@ export const BooksSlice = createSlice({
       ) {
         const { author, title, id } = payload.data;
         if (author && title && id) {
-          state.books.push({ ...payload.data });
+          state.books?.push({ ...payload.data });
           toast("You successfully added a new book into shelf");
         } else {
           toast("There is no book with this ISBN number");
