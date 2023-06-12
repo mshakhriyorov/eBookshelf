@@ -18,7 +18,3 @@ export const postRegister = (
 export const getMe = (): Promise<AxiosResponse> => {
   return axiosInstance.get("/myself");
 };
-
-export const clean = (): Promise<AxiosResponse> => {
-  return axiosInstance.get("/cleanup");
-};

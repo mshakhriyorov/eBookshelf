@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import type { RootState } from "../../app/store";
 
-import { clean, getMe, postRegister } from "../../api/user";
+import { getMe, postRegister } from "../../api/user";
 
 import {
   Meta,
@@ -55,29 +55,6 @@ export const fetchMe = createAsyncThunk(
     });
     try {
       const response = await getMe();
-      return {
-        data: response.data,
-      };
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response) {
-        return rejectWithValue(axiosError.response.status);
-      } else {
-        throw error;
-      }
-    }
-  }
-);
-
-export const cleanUp = createAsyncThunk(
-  "user/cleanUp",
-  async (_, { signal, rejectWithValue }) => {
-    const source = axios.CancelToken.source();
-    signal.addEventListener("abort", () => {
-      source.cancel();
-    });
-    try {
-      const response = await clean();
       return {
         data: response.data,
       };

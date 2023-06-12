@@ -20,7 +20,6 @@ import { Nothing } from "../Nothing";
 import { StyledDialog } from "../Dialog";
 
 import {
-  cleanUp,
   deleteAccount,
   fetchMe,
   selectorGetMyself,
@@ -67,7 +66,6 @@ export const Books: React.FC = () => {
 
   const handleDeleteAccount = () => {
     dispatch(setInitialState());
-    dispatch(cleanUp());
     dispatch(deleteAccount());
     navigate(routePaths.signup());
   };
