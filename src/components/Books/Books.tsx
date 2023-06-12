@@ -20,11 +20,12 @@ import { Nothing } from "../Nothing";
 import { StyledDialog } from "../Dialog";
 
 import {
+  cleanUp,
   deleteAccount,
   fetchMe,
   selectorGetMyself,
 } from "../Register/UserSlice";
-import { fetchBooks, selectorGetBooks } from "./BooksSlice";
+import { fetchBooks, selectorGetBooks, setInitialState } from "./BooksSlice";
 
 import { routePaths } from "../../utils/routePaths";
 
@@ -65,6 +66,8 @@ export const Books: React.FC = () => {
     );
 
   const handleDeleteAccount = () => {
+    dispatch(setInitialState());
+    dispatch(cleanUp());
     dispatch(deleteAccount());
     navigate(routePaths.signup());
   };

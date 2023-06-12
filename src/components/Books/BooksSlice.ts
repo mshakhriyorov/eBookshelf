@@ -134,7 +134,11 @@ const initialState: BooksState = {
 export const BooksSlice = createSlice({
   name: "books",
   initialState,
-  reducers: {},
+  reducers: {
+    setInitialState: (state) => {
+      state.books = [];
+    },
+  },
   extraReducers: {
     [addBook.pending.type]: (
       state,
@@ -265,7 +269,7 @@ export const BooksSlice = createSlice({
   },
 });
 
-// export const { increment, decrement, incrementByAmount } = BooksSlice.actions;
+export const { setInitialState } = BooksSlice.actions;
 
 export const selectorGetBooks = (state: RootState) => state.books;
 
