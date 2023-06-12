@@ -11,9 +11,15 @@ type DialogProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   onSubmit: () => void;
+  variant: "book" | "account";
 };
 
-export const StyledDialog = ({ onSubmit, isOpen, setIsOpen }: DialogProps) => {
+export const StyledDialog = ({
+  onSubmit,
+  isOpen,
+  setIsOpen,
+  variant,
+}: DialogProps) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -31,8 +37,10 @@ export const StyledDialog = ({ onSubmit, isOpen, setIsOpen }: DialogProps) => {
       sx={{ backdropFilter: "blur(2px)" }}
     >
       <DialogTitle id="responsive-dialog-title">
-        Once you logged out, you will lose access to your account. <br /> Do you
-        really want it?
+        {variant === "account"
+          ? `Once you logged out, you will lose access to your account. 
+          Do you really want it?`
+          : "Do you want to delete this book?"}
       </DialogTitle>
       <DialogActions>
         <Button autoFocus onClick={() => setIsOpen(false)}>

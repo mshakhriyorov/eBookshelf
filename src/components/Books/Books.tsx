@@ -15,17 +15,18 @@ import { useAppSelector } from "../../app/hooks";
 
 import { ActionsAdd } from "../Actions/Add";
 import { BooksItem } from "./Item";
+import { Loader } from "../Loader";
+import { Nothing } from "../Nothing";
+import { StyledDialog } from "../Dialog";
 
 import {
   deleteAccount,
   fetchMe,
   selectorGetMyself,
 } from "../Register/UserSlice";
+import { fetchBooks, selectorGetBooks } from "./BooksSlice";
 
 import { routePaths } from "../../utils/routePaths";
-import { StyledDialog } from "../Dialog";
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const defaultTheme = createTheme();
 
@@ -35,26 +36,50 @@ export const Books: React.FC = () => {
   const [visibleAddBook, setVisibleAddBook] = useState(false);
   const [visibleDeleteAccount, setVisibleDeletedAccount] = useState(false);
   const { registrationData, isRegistered } = useAppSelector(selectorGetMyself);
+  const { books, loading } = useAppSelector(selectorGetBooks);
   const localStorageState =
     JSON.parse(localStorage.getItem("register") as any) || registrationData;
 
+  const bookItemsContent =
+    books?.length > 0 ? (
+      books.map(
+        ({ book, status }, index) =>
+          book?.author &&
+          book?.title && (
+            <Grid item key={`${book?.id}__${index}`} xs={12} sm={6} md={4}>
+              <BooksItem
+                id={book?.id}
+                author={book?.author}
+                title={book?.title}
+                isbn={book?.isbn}
+                published={book?.published}
+                status={status || 0}
+                pages={book?.pages}
+                cover={book?.cover}
+              />
+            </Grid>
+          )
+      )
+    ) : (
+      <Nothing setVisibleAddBook={setVisibleAddBook} />
+    );
+
   const handleDeleteAccount = () => {
     dispatch(deleteAccount());
-    navigate(routePaths.register());
+    navigate(routePaths.signup());
   };
 
-  // fetch current user data
+  // fetch current user and books
   useEffect(() => {
-    if (localStorageState) {
-      dispatch(fetchMe());
-    }
-  }, []);
+    dispatch(fetchMe());
+    dispatch(fetchBooks());
+  }, [dispatch]);
 
-  //   redirect in case already registered
+  // redirect in case not registered
   useEffect(() => {
     setTimeout(() => {
       if (!localStorageState.id && !isRegistered) {
-        navigate(routePaths.register());
+        navigate(routePaths.signup());
       }
     }, 2000);
   }, [navigate, localStorageState, isRegistered]);
@@ -93,12 +118,15 @@ export const Books: React.FC = () => {
         </AppBar>
         <main>
           <Container sx={{ py: 8 }} maxWidth="md">
-            <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <BooksItem />
-                </Grid>
-              ))}
+            <Grid
+              container
+              spacing={4}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              {loading === "pending" ? <Loader /> : bookItemsContent}
             </Grid>
           </Container>
         </main>
@@ -113,6 +141,7 @@ export const Books: React.FC = () => {
 
       {visibleDeleteAccount && (
         <StyledDialog
+          variant="account"
           isOpen={visibleDeleteAccount}
           setIsOpen={setVisibleDeletedAccount}
           onSubmit={handleDeleteAccount}

@@ -8,7 +8,7 @@ import FormControl, { useFormControlContext } from "@mui/base/FormControl";
 import Input, { inputClasses } from "@mui/base/Input";
 import { styled } from "@mui/system";
 
-import { addBook } from "../../Books/BooksSlice";
+import { addBook, fetchBooks } from "../../Books/BooksSlice";
 
 import { StyledButton } from "../../Button";
 
@@ -17,6 +17,18 @@ interface ActionsAddProps {
   setIsVisibleModal: (isVisibleModal: boolean) => void;
 }
 
+const boxStyle = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: 4,
+  p: 4,
+};
+
 export const ActionsAdd = ({
   isVisibleModal,
   setIsVisibleModal,
@@ -24,23 +36,15 @@ export const ActionsAdd = ({
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("");
 
-  const boxStyle = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    borderRadius: 4,
-    p: 4,
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (value) {
-      dispatch(addBook({ isbn: value }));
+      const response = await dispatch(addBook({ isbn: value.toString() }));
       setIsVisibleModal(false);
       setValue("");
+
+      if (addBook.fulfilled.match(response)) {
+        dispatch(fetchBooks());
+      }
     }
   };
 
@@ -65,7 +69,7 @@ export const ActionsAdd = ({
           required
         >
           <Label>Name</Label>
-          <StyledInput />
+          <StyledInput type="number" autoFocus />
           <HelperText />
 
           <CardActions

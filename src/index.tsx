@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import "./index.css";
 
 import App from "./App";
+import { Loader } from "./components/Loader";
 
 import { store } from "./app/store";
 
@@ -18,7 +19,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <App />
         </Suspense>
       </BrowserRouter>

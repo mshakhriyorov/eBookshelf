@@ -1,11 +1,12 @@
-interface BookData {
-  authot: string;
+export interface BookData {
+  author: string;
   cover: string;
   id: number;
   isbn: string;
   pages: number;
-  published: Date;
+  published: string;
   title: string;
+  status: number;
 }
 
 interface Book {
@@ -14,6 +15,7 @@ interface Book {
 }
 
 export interface BooksState {
+  [x: string]: any;
   books: Book[];
   bookId: number | null;
   loading: "idle" | "pending";

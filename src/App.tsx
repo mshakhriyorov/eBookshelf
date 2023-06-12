@@ -12,7 +12,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path={routePaths.home()} element={<Books />} />
-        <Route path={routePaths.register()} element={<Register />} />
+        <Route path={routePaths.signup()} element={<Register />} />
       </Routes>
       <ToastContainer />
     </div>

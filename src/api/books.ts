@@ -8,8 +8,8 @@ export const postBook = (
   return axiosInstance.post("/books", { isbn }, extraData);
 };
 
-export const getBooks = (extraData: any): Promise<AxiosResponse> => {
-  return axiosInstance.get("/books", extraData);
+export const getBooks = (): Promise<AxiosResponse> => {
+  return axiosInstance.get("/books");
 };
 
 export const editBook = (

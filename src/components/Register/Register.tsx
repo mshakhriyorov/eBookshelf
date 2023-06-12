@@ -11,7 +11,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import { useAppDispatch } from "../../app/hooks";
+
 import { registerUser } from "./UserSlice";
 
 import { RegisterData } from "./constants/registerInterfaces";
@@ -31,10 +33,11 @@ export const Register: React.FC = () => {
     const data = new FormData(event.currentTarget);
     const email = data.get("email") as string | null;
     const name = data.get("name") as string | null;
+    const secret = data.get("secret") as string | null;
     const registrationData: RegisterData = {
       email: email || "",
       name: name || "",
-      secret: "",
+      secret: secret || "",
     };
 
     if (email && name) {
@@ -97,6 +100,16 @@ export const Register: React.FC = () => {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="secret"
+                  name="secret"
+                  fullWidth
+                  id="secret"
+                  label="Your secret key"
                 />
               </Grid>
             </Grid>

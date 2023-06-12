@@ -1,4 +1,4 @@
 export const routePaths = {
-  register: () => "/register",
+  signup: () => "/signup",
   home: () => "/",
 };

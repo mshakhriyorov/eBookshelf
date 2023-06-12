@@ -141,9 +141,6 @@ export const UserSlice = createSlice({
         if (payload === 500) {
           toast("This user ID is already taken!");
         }
-        if (payload === 401) {
-          toast("You are not registered yet!");
-        }
         state.loading = "idle";
         state.error = payload;
         state.currentRequestId = undefined;
