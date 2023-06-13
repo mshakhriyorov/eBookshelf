@@ -19,7 +19,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<Loader variant="circular" />}>
           <App />
         </Suspense>
       </BrowserRouter>

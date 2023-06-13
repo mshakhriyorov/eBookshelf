@@ -35,6 +35,7 @@ export const Books: React.FC = () => {
   const navigate = useNavigate();
   const [visibleAddBook, setVisibleAddBook] = useState(false);
   const [visibleDeleteAccount, setVisibleDeletedAccount] = useState(false);
+  const [mainLoader, setMainLoader] = useState(false);
   const { registrationData, isRegistered } = useAppSelector(selectorGetMyself);
   const { books, loading } = useAppSelector(selectorGetBooks);
   const localStorageState =
@@ -85,6 +86,19 @@ export const Books: React.FC = () => {
     }, 2000);
   }, [navigate, localStorageState, isRegistered]);
 
+  useEffect(() => {
+    // Simulate async operation on component mount
+    simulateAsyncOperation(2000);
+  }, []);
+
+  const simulateAsyncOperation = (delay: number) => {
+    setMainLoader(true);
+
+    setTimeout(() => {
+      setMainLoader(false);
+    }, delay);
+  };
+
   return (
     <>
       <ThemeProvider theme={defaultTheme}>
@@ -127,11 +141,17 @@ export const Books: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              {loading === "pending" ? <Loader /> : bookItemsContent}
+              {loading === "pending" ? (
+                <Loader variant="skeleton" />
+              ) : (
+                bookItemsContent
+              )}
             </Grid>
           </Container>
         </main>
       </ThemeProvider>
+
+      {mainLoader && <Loader variant="circular" />}
 
       {visibleAddBook && (
         <ActionsAdd
